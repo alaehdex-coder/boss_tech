@@ -118,7 +118,7 @@
      Single gold series per chart → no legend, title names it.
      ========================================================= */
   var tip = $('.dash-tip');
-  var dashEl = $('.dash');
+  var dashEl = $('.dash-stage > .dash');   // not just '.dash': the orbit SVG has a circle with that class too
 
   function showTip(clientX, clientY, html) {
     if (!tip || !dashEl) return;
