@@ -248,7 +248,8 @@
       stage.style.width = stage.style.height = '';
       return;
     }
-    var s = Math.min((innerWidth - 80) / 1280, (innerHeight - 120) / 760, 1.1);
+    // leave room for the circuit rail on the right and the nav on top, so the frame never touches either
+    var s = Math.min((innerWidth - 220) / 1280, (innerHeight - 170) / 760, 1.05);
     dashEl.style.setProperty('--s', s.toFixed(4));
     stage.style.width = (1280 * s) + 'px';
     stage.style.height = (760 * s) + 'px';
@@ -1357,7 +1358,7 @@
       .fromTo($$('.inv-fill', el), { scaleX: 0 }, { scaleX: 1, stagger: .03, duration: .15 }, .48)
       .fromTo($$('.tx-row', el), { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, stagger: .025, duration: .08 }, .6);
     addCounters(tl, $$('.kpi__val', el), .4, .32);
-    if (desktop) tl.to(stage, { rotationX: 8, z: -120, duration: .2, ease: 'sine.inOut' }, .8);
+    if (desktop) tl.to({}, { duration: .2 }, .8);   // hold flat (a late tilt skewed the frame)
     else tl.to({}, { duration: .1 }, .9);
   }
 

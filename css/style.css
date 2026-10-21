@@ -20,6 +20,7 @@
      bright top edge, soft depth. Reused by every glass surface. */
   --glass-fill: linear-gradient(150deg, rgba(255, 248, 228, .16) 0%, rgba(255, 248, 228, .06) 42%, rgba(255, 248, 228, .03) 60%, rgba(255, 248, 228, .09) 100%);
   --glass-blur: blur(22px) saturate(180%) brightness(1.08);   /* blur cost grows with radius; 22px reads the same */
+  --card-blur: blur(14px) saturate(170%) brightness(1.06);     /* moving cards: lighter blur keeps the rail smooth */
   --glass-edge: rgba(255, 246, 222, .2);
   --glass-shine: inset 0 1px 0 rgba(255, 255, 255, .32), inset 0 -1px 0 rgba(255, 255, 255, .05), inset 1px 0 0 rgba(255, 255, 255, .06);
   --glass-depth: 0 30px 70px -24px rgba(0, 0, 0, .75), 0 2px 8px rgba(0, 0, 0, .25);
@@ -384,7 +385,7 @@ main { position: relative; z-index: 2; }
   font-size: clamp(10px, .9vw, 12px); font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
   color: var(--gold-hi);
   background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--card-blur); backdrop-filter: var(--card-blur);
   border: 1px solid var(--glass-edge);
   border-radius: 999px;
   box-shadow: var(--glass-shine), 0 10px 24px -10px rgba(0,0,0,.7);
@@ -454,7 +455,7 @@ main { position: relative; z-index: 2; }
   padding: 28px 28px 26px;
   display: flex; flex-direction: column;
   background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--card-blur); backdrop-filter: var(--card-blur);
   border: 1px solid var(--glass-edge);
   border-radius: var(--r-glass);
   box-shadow: var(--glass-shine), var(--glass-depth);
@@ -525,8 +526,9 @@ main { position: relative; z-index: 2; }
   grid-template-rows: 56px 1fr;
   gap: 12px;
   padding: 14px;
-  background: var(--glass-fill), rgba(8, 6, 3, .35);
-  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  /* no live backdrop blur here: the frame moves in 3D, and re-blurring a 1280×760 area every frame was
+     the heaviest cost on the page. A warm translucent fill reads the same over the dark background. */
+  background: var(--glass-fill), radial-gradient(ellipse at 30% 0%, rgba(233, 182, 50, .14), transparent 60%), rgba(12, 10, 6, .82);
   border: 1px solid var(--glass-edge);
   border-radius: 34px;
   box-shadow: var(--glass-shine), 0 80px 160px -40px rgba(0,0,0,1), 0 0 120px rgba(233,182,50,.1);
@@ -570,8 +572,10 @@ main { position: relative; z-index: 2; }
 .kpi__val { margin-top: 6px; font-family: var(--f-display); font-weight: 700; font-size: 30px; line-height: 1.1; color: var(--ink); }
 .kpi__delta { margin-top: 6px; font-size: 12px; color: var(--ink-3); }
 .kpi__delta b { color: var(--good); font-weight: 700; }
-.kpi__spark { position: absolute; right: 14px; top: 16px; width: 110px; height: 32px; overflow: visible; }
-.kpi__spark path { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* sparkline sits as a faint trace along the tile's bottom edge, behind the text */
+.kpi__spark { position: absolute; left: 0; right: 0; bottom: 6px; width: 100%; height: 34px; overflow: visible; opacity: .45; pointer-events: none; }
+.kpi > *:not(.kpi__spark) { position: relative; z-index: 1; }
+.kpi__spark path { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .kpi-meter { margin-top: 10px; height: 4px; background: rgba(233,182,50,.14); border-radius: 2px; }
 .kpi-meter i { display: block; height: 100%; width: calc(var(--w) * 100%); background: var(--gold); border-radius: 2px; transform-origin: left; }
 
@@ -725,12 +729,12 @@ html.has-lenis, html.has-lenis body { height: auto; }
 .circuit__node.is-passed::before { background: var(--gold); border-color: var(--gold); }
 .circuit__node.is-active::before { background: var(--gold-hi); border-color: #fff3c8; box-shadow: 0 0 10px var(--gold); transform: rotate(45deg) scale(1.35); }
 .circuit__node span {
-  position: absolute; right: 26px; white-space: nowrap;
+  position: absolute; right: 26px; white-space: nowrap; padding: 6px 10px; border-radius: 999px; background: rgba(0, 0, 0, .78); border: 1px solid var(--gold-line);
   font-size: 10px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-hi);
   opacity: 0; transform: translateX(6px); transition: opacity .25s, transform .25s; pointer-events: none;
 }
-.circuit__node:hover span, .circuit__node:focus-visible span, .circuit__node.is-active span { opacity: 1; transform: none; }
-.circuit__node.is-active span { color: var(--ink-2); }
+/* chapter name only on hover/focus — always showing it covered page content on wide screens */
+.circuit__node:hover span, .circuit__node:focus-visible span { opacity: 1; transform: none; }
 .is-reduced .circuit { display: none; }
 
 /* ---------- 3D boot intro (js/intro.js) ---------- */
