@@ -223,3 +223,14 @@
 
 /* shards may fly past the panel, but never widen the page (overflow-x: clip doesn't create a scroll box) */
 .sec--functions { overflow-x: hidden; overflow-x: clip; }
+
+/* soft section edges: the gold glow behind glass fades out at the top and bottom of its section,
+   and the dark "business owner" overlay rises with a feathered edge — no hard horizontal seams */
+.ambient {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+}
+.owner__dark {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 22%);
+}
