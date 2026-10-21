@@ -1045,13 +1045,25 @@
       btn.disabled = true;
       btn.classList.add('is-busy');
       status.textContent = 'Sending…';
-      // Formspree (static hosting, e.g. Vercel) when an ID is set, otherwise the PHP script (XAMPP)
-      var fsId = (form.dataset.formspree || '').trim();
-      var endpoint = fsId ? 'https://formspree.io/f/' + encodeURIComponent(fsId) : form.action;
+      // FormSubmit (email address) → Formspree (form ID) → the PHP script (XAMPP only)
+      var fsMail = (form.dataset.formsubmit || '').trim(), fsId = (form.dataset.formspree || '').trim();
+      var endpoint = fsMail ? 'https://formsubmit.co/ajax/' + encodeURIComponent(fsMail)
+                   : fsId ? 'https://formspree.io/f/' + encodeURIComponent(fsId) : form.action;
       var who = (form.elements.name.value || '').trim();
-      fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      var body = new FormData(form);
+      if (fsMail) {
+        // one readable "Modules" line instead of repeated modules[] fields, plus a tidy table email
+        var mods = body.getAll('modules[]');
+        body.delete('modules[]');
+        body.set('Modules', mods.length ? mods.join(', ') : '—');
+        body.set('_template', 'table');
+        body.set('_captcha', 'false');
+        body.set('_replyto', form.elements.email.value);
+      }
+      fetch(endpoint, { method: 'POST', body: body, headers: { Accept: 'application/json' } })
         .then(function (r) { return r.json().catch(function () { return { ok: false, message: 'Something went wrong. Please try again.' }; }); })
         .then(function (res) {
+          if (fsMail) res = { ok: res.success === true || res.success === 'true', message: res.success === true || res.success === 'true' ? '' : (res.message || '') };
           // Formspree answers { ok: true } or { errors: [{ message }] }; the PHP script sends { ok, message }
           if (res.ok && !res.message) res.message = 'Thank you' + (who ? ', ' + who : '') + '. We received your request and will contact you to schedule your demo.';
           if (!res.ok && !res.message) res.message = (res.errors && res.errors.length) ? res.errors.map(function (er) { return er.message; }).join(' ') : 'Something went wrong. Please try again.';

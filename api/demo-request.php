@@ -37,8 +37,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     respond(false, 'Method not allowed.', 405, $wantsJson);
 }
 
-// Honeypot: real people never fill the hidden "_gotcha" field.
-if (trim((string)($_POST['_gotcha'] ?? '')) !== '') {
+// Honeypot: real people never fill the hidden "_honey" field.
+if (trim((string)($_POST['_honey'] ?? '')) !== '') {
     respond(true, 'Thank you.', 200, $wantsJson);
 }
 

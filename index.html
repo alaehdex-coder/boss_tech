@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=2610211430">
-  <link rel="stylesheet" href="css/sections.css?v=2610211430">
+  <link rel="stylesheet" href="css/style.css?v=2610211453">
+  <link rel="stylesheet" href="css/sections.css?v=2610211453">
 </head>
 <body>
 
@@ -445,9 +445,12 @@
           </ul>
         </div>
 
-        <!-- data-formspree: your Formspree form ID (formspree.io → New form → the part after /f/).
-             When set, requests are emailed via Formspree (works on Vercel); when empty, they post to the PHP script (XAMPP). -->
-        <form class="demo__form glass-spot" id="demoForm" action="api/demo-request.php" method="post" novalidate data-formspree="">
+        <!-- Where demo requests go (first match wins):
+               data-formsubmit  an email address (or the private alias FormSubmit gives you) — emailed via formsubmit.co
+               data-formspree   a Formspree form ID — emailed via formspree.io
+               neither          posted to api/demo-request.php (local XAMPP only; PHP doesn't run on Vercel) -->
+        <form class="demo__form glass-spot" id="demoForm" action="api/demo-request.php" method="post" novalidate
+              data-formsubmit="alaehdex@gmail.com" data-formspree="">
           <h3>Request a demo</h3>
           <div class="f-row">
             <label class="f"><span>Full name</span><input name="name" autocomplete="name" required maxlength="80"></label>
@@ -478,7 +481,7 @@
             <label><input type="checkbox" name="modules[]" value="Management"><span>Management</span></label>
           </fieldset>
           <label class="f"><span>Anything we should know? <em>(optional)</em></span><textarea name="message" rows="3" maxlength="1000"></textarea></label>
-          <input class="hp" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <input type="hidden" name="_subject" value="New BOSS demo request">
           <button class="demo__submit" type="submit" data-magnetic><span>Request my demo</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
           <p class="demo__status" role="status" aria-live="polite"></p>
@@ -500,8 +503,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="js/intro.js?v=2610211430"></script>
-  <script src="js/scene.js?v=2610211430"></script>
-  <script src="js/main.js?v=2610211430"></script>
+  <script src="js/intro.js?v=2610211453"></script>
+  <script src="js/scene.js?v=2610211453"></script>
+  <script src="js/main.js?v=2610211453"></script>
 </body>
 </html>
