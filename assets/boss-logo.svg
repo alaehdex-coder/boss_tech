@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <!-- Fallback stand-in only. Replace with the real logo saved as assets/boss-logo.png.
+       Geometry follows the real mark so the layer masks in css/style.css line up:
+       outer rings r>=400, arcs inside r<400 above y=370 / below y=625, wordmark between. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe98a"/>
+      <stop offset=".45" stop-color="#f6c63f"/>
+      <stop offset="1" stop-color="#d4961a"/>
+    </linearGradient>
+    <linearGradient id="gr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe27a"/>
+      <stop offset=".5" stop-color="#e2a92a"/>
+      <stop offset="1" stop-color="#ffd860"/>
+    </linearGradient>
+  </defs>
+  <circle cx="500" cy="500" r="496" fill="#000"/>
+  <circle cx="500" cy="500" r="457" fill="none" stroke="url(#gr)" stroke-width="16"/>
+  <circle cx="500" cy="500" r="428" fill="none" stroke="url(#gr)" stroke-width="5"/>
+
+  <!-- crescent arcs -->
+  <path fill="url(#g)" d="M232 290A324 324 0 0 1 768 290A343 343 0 0 0 232 290Z"/>
+  <path fill="url(#g)" d="M262 300A429 429 0 0 1 738 300A495 495 0 0 0 262 300Z"/>
+  <path fill="url(#g)" d="M262 645A429 429 0 0 0 738 645A495 495 0 0 1 262 645Z"/>
+  <path fill="url(#g)" d="M232 660A324 324 0 0 0 768 660A343 343 0 0 1 232 660Z"/>
+
+  <!-- wordmark: B, crowned O, SS -->
+  <g fill="url(#g)" font-family="'Arial Black','Segoe UI Black',Arial,Helvetica,sans-serif" font-weight="900" font-size="170">
+    <text x="241" y="520" textLength="125" lengthAdjust="spacingAndGlyphs">B</text>
+    <text x="532" y="520" textLength="228" lengthAdjust="spacingAndGlyphs">SS</text>
+  </g>
+  <circle cx="449" cy="459" r="62" fill="none" stroke="url(#g)" stroke-width="30"/>
+  <path fill="url(#g)" d="M424 470 418 432 436 446 449 424 462 446 480 432 474 470Z M422 474h56v9h-56z"/>
+  <circle cx="418" cy="428" r="4" fill="url(#g)"/><circle cx="449" cy="419" r="5" fill="url(#g)"/><circle cx="480" cy="428" r="4" fill="url(#g)"/>
+
+  <text x="500" y="598" text-anchor="middle" textLength="640" lengthAdjust="spacingAndGlyphs"
+        font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="40" fill="url(#g)">Business Owner Strategic System</text>
+</svg>

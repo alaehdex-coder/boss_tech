@@ -1,0 +1,4 @@
+# PHP doesn't run on Vercel — keep the XAMPP-only form backend and its data out of the deployment
+api/
+data/
+README.md

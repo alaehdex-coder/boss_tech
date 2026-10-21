@@ -1,0 +1,7 @@
+# demo requests saved by the local PHP script (personal data — never commit)
+data/*.csv
+data/.rate-*
+
+.vercel
+.DS_Store
+Thumbs.db

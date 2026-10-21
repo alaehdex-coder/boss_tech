@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOSS — Business Owner Strategic System</title>
+  <meta name="description" content="BOSS brings sales, inventory, purchasing, production, reports and management into one centralized system built for business owners.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/boss-logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+
+  <!--
+    LOGO: every logo instance loads assets/boss-logo.png (your real logo, 1:1 square, black disc).
+    If that file is missing it falls back to assets/boss-logo.svg (a vector stand-in with the same geometry).
+    The big animated logos are 4 copies of the same image, each masked to one part:
+      l-rings       -> the outer double ring
+      l-arcs-top    -> the two arcs above the wordmark
+      l-arcs-bottom -> the two arcs below the wordmark
+      l-core        -> BOSS wordmark + crown + "Business Owner Strategic System"
+    The logo itself is never redrawn or distorted — only its parts are moved.
+  -->
+
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs id="sharedDefs">
+      <!-- reactor HUD around the logo (hex pattern is generated in js/main.js) -->
+      <linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4f3f1c"/>
+        <stop offset=".35" stop-color="#120e07"/>
+        <stop offset=".6" stop-color="#77622f"/>
+        <stop offset="1" stop-color="#0a0805"/>
+      </linearGradient>
+      <radialGradient id="gSteelFill">
+        <stop offset=".3" stop-color="#0d0a05"/>
+        <stop offset=".75" stop-color="#090704"/>
+        <stop offset="1" stop-color="#040302" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gMeshShade">
+        <stop offset=".45" stop-color="#000" stop-opacity="0"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".85"/>
+      </radialGradient>
+      <linearGradient id="gMeshSheen" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f6dc8a" stop-opacity=".16"/>
+        <stop offset=".5" stop-color="#f6dc8a" stop-opacity="0"/>
+        <stop offset="1" stop-color="#e9b632" stop-opacity=".05"/>
+      </linearGradient>
+      <radialGradient id="gDot">
+        <stop offset="0" stop-color="#fff6d6"/>
+        <stop offset=".35" stop-color="#f2cf72" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#d4a537" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gHalo">
+        <stop offset=".55" stop-color="#d4a537" stop-opacity=".2"/>
+        <stop offset="1" stop-color="#d4a537" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="nav__brand" href="#hero" aria-label="BOSS — back to start">
+      <img class="nav__mark" src="assets/boss-logo.png" alt="" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+      <span>BOSS</span>
+    </a>
+    <div class="nav__chapter" aria-hidden="true"><span class="nav__num">00</span><span class="nav__label">Enter</span></div>
+    <a class="nav__cta" href="#demo" data-magnetic>Book a demo</a>
+    <div class="nav__progress" aria-hidden="true"><span></span></div>
+  </header>
+
+  <!-- circuit wire down the side: draws itself with scroll, one node per chapter (built in js/main.js) -->
+  <nav class="circuit" aria-label="Chapters"><svg class="circuit__svg" aria-hidden="true"></svg><div class="circuit__nodes"></div></nav>
+
+  <main>
+
+    <!-- HERO — the logo, then the camera flies through it -->
+    <section id="hero" class="sec sec--hero" data-chapter="00" data-label="Enter">
+      <p class="hero__meta"><span>Business Owner</span><span>Strategic System</span></p>
+      <div class="hero__stage">
+        <div class="hero__tilt">
+          <div class="logo3d" id="heroLogo" role="img" aria-label="BOSS — Business Owner Strategic System logo">
+            <div class="logo3d__glow"><i></i></div>
+            <img class="logo3d__layer l-rings" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-arcs-top" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-arcs-bottom" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-core" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+          </div>
+        </div>
+      </div>
+      <div class="hero__cue" aria-hidden="true"><span>Scroll to enter the system</span><i></i></div>
+      <div class="hero__flash" aria-hidden="true"></div>
+      <h1 class="sr-only">BOSS — Business Owner Strategic System</h1>
+    </section>
+
+    <!-- 01 — WELCOME -->
+    <section id="welcome" class="sec sec--welcome" data-chapter="01" data-label="Welcome">
+      <div class="frame" aria-hidden="true">
+        <span class="fl fl--t"></span><span class="fl fl--b"></span><span class="fl fl--l"></span><span class="fl fl--r"></span>
+        <span class="fc fc--tl"></span><span class="fc fc--tr"></span><span class="fc fc--bl"></span><span class="fc fc--br"></span>
+        <span class="spark spark--t"></span><span class="spark spark--b"></span>
+      </div>
+      <div class="welcome__inner">
+        <p class="eyebrow">01 — Enter the system</p>
+        <h2 class="welcome__title display" data-split="chars">WELCOME TO BOSS</h2>
+        <p class="welcome__sub">Business Owner Strategic System</p>
+        <p class="welcome__tag"><span>One System.</span> <span>One Vision.</span> <span>Better Business Decisions.</span></p>
+      </div>
+    </section>
+
+    <!-- 02 — WHAT IS BOSS -->
+    <section id="what" class="sec sec--what" data-chapter="02" data-label="The system">
+      <div class="ambient ambient--right" aria-hidden="true"><i class="orb orb--a"></i><i class="orb orb--b"></i></div>
+      <div class="what__grid">
+        <div class="what__copy">
+          <p class="eyebrow">02 — What is BOSS</p>
+          <h2 class="what__title display" data-split="words">THE BUSINESS OPERATING SYSTEM</h2>
+          <p class="what__desc">BOSS brings your most important business operations, information, monitoring and decision-making into one centralized system — so you stop chasing spreadsheets and start reading the business.</p>
+          <dl class="stats">
+            <div class="stat"><dt>Core modules</dt><dd class="stat__num" data-count="6" data-pad="2">06</dd></div>
+            <div class="stat"><dt>Central system</dt><dd class="stat__num" data-count="1" data-pad="2">01</dd></div>
+            <div class="stat"><dt>Business view</dt><dd class="stat__num" data-count="360" data-suffix="°">360°</dd></div>
+          </dl>
+        </div>
+
+        <div class="orbit" aria-label="BOSS connects six business areas">
+          <svg class="orbit__rings" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="42"/>
+            <circle cx="50" cy="50" r="33" class="dash"/>
+            <circle cx="50" cy="50" r="48" class="faint"/>
+          </svg>
+          <svg class="orbit__links" viewBox="0 0 100 100" aria-hidden="true">
+            <line x1="50" y1="50" x2="50" y2="8" pathLength="1"/>
+            <line x1="50" y1="50" x2="86.4" y2="29" pathLength="1"/>
+            <line x1="50" y1="50" x2="86.4" y2="71" pathLength="1"/>
+            <line x1="50" y1="50" x2="50" y2="92" pathLength="1"/>
+            <line x1="50" y1="50" x2="13.6" y2="71" pathLength="1"/>
+            <line x1="50" y1="50" x2="13.6" y2="29" pathLength="1"/>
+          </svg>
+
+          <div class="core">
+            <img class="core__mark" src="assets/boss-logo.png" alt="" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <p class="core__title">BOSS CORE</p>
+            <p class="core__status"><i></i>All modules synced</p>
+            <div class="core__bars" aria-hidden="true"><i style="--h:.45"></i><i style="--h:.7"></i><i style="--h:.55"></i><i style="--h:.9"></i><i style="--h:.65"></i><i style="--h:1"></i></div>
+          </div>
+
+          <span class="chip" style="--x:50;--y:8">Sales</span>
+          <span class="chip" style="--x:86.4;--y:29">Inventory</span>
+          <span class="chip" style="--x:86.4;--y:71">Purchasing</span>
+          <span class="chip" style="--x:50;--y:92">Operations</span>
+          <span class="chip" style="--x:13.6;--y:71">Reports</span>
+          <span class="chip" style="--x:13.6;--y:29">Management</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — MODULES (horizontal) -->
+    <section id="modules" class="sec sec--modules" data-chapter="03" data-label="Modules">
+      <div class="ambient" aria-hidden="true"><i class="orb orb--a"></i><i class="orb orb--b"></i><i class="orb orb--c"></i></div>
+      <div class="modules__head">
+        <p class="eyebrow">03 — System modules</p>
+        <h2 class="display">SIX MODULES. <span class="metal">ONE COMMAND CENTER.</span></h2>
+      </div>
+      <div class="hs">
+        <div class="hs__track">
+          <div class="hs__line" aria-hidden="true"><i></i></div>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">01 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>
+            <h3>Sales</h3>
+            <p>Track transactions, customers, agents and sales performance.</p>
+            <div class="mini mini--bars" aria-hidden="true"><i style="--h:.38"></i><i style="--h:.52"></i><i style="--h:.46"></i><i style="--h:.64"></i><i style="--h:.58"></i><i style="--h:.8"></i><i style="--h:1"></i></div>
+          </article>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">02 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/></svg>
+            <h3>Inventory</h3>
+            <p>Monitor products, stock levels and movement.</p>
+            <div class="mini mini--meters" aria-hidden="true">
+              <div><span>Finished goods</span><b style="--w:.86"></b></div>
+              <div><span>Raw materials</span><b style="--w:.92"></b></div>
+              <div><span>Packaging</span><b style="--w:.64"></b></div>
+            </div>
+          </article>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">03 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19.5" r="1.2"/><circle cx="17" cy="19.5" r="1.2"/></svg>
+            <h3>Purchasing</h3>
+            <p>Manage purchasing activities and supplier information.</p>
+            <ul class="mini mini--list" aria-hidden="true">
+              <li><span>PO-1042</span><em>Approved</em></li>
+              <li><span>PO-1043</span><em>For receiving</em></li>
+              <li><span>PO-1044</span><em>Draft</em></li>
+            </ul>
+          </article>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">04 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V10l6 4v-4l6 4V5h6v16zM3 21h18"/></svg>
+            <h3>Production</h3>
+            <p>Monitor production-related activities and operational information.</p>
+            <ol class="mini mini--steps" aria-hidden="true">
+              <li class="done">Planned</li><li class="done">In progress</li><li class="active">QC</li><li>Done</li>
+            </ol>
+          </article>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">05 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 17v-3M12 17v-6M15 17v-4"/></svg>
+            <h3>Reports</h3>
+            <p>Transform business data into useful reports and insights.</p>
+            <div class="mini mini--donut" aria-hidden="true">
+              <svg viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.9" class="trk"/><circle cx="21" cy="21" r="15.9" class="val" pathLength="100" stroke-dasharray="72 100"/></svg>
+              <p><b>72%</b><span>of monthly target</span></p>
+            </div>
+          </article>
+
+          <article class="mcard">
+            <header class="mcard__top"><span class="mcard__idx">06 / 06</span><span class="mcard__tag">Module</span></header>
+            <svg class="mcard__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg>
+            <h3>Management</h3>
+            <p>Give business owners a centralized view of their operations.</p>
+            <div class="mini mini--kpis" aria-hidden="true">
+              <div><span>Sales</span><b>₱1.25M</b></div><div><span>Orders</span><b>1,248</b></div>
+              <div><span>Stock</span><b>86%</b></div><div><span>Customers</span><b>428</b></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 — FUNCTIONS: interactive explorer (panel content rendered by js/main.js → FUNCTIONS) -->
+    <section id="functions" class="sec sec--flow sec--functions" data-chapter="04" data-label="Functions">
+      <div class="ambient" aria-hidden="true"><i class="orb orb--a"></i><i class="orb orb--b"></i></div>
+      <div class="fx">
+        <header class="fx__head">
+          <p class="eyebrow">04 — Functions</p>
+          <h2 class="display">EVERY FUNCTION YOUR BUSINESS <span class="metal">RUNS ON.</span></h2>
+          <p class="fx__lead">Pick a module to see what it handles day to day: the transactions it records, the controls it enforces and the reports it gives back to you.</p>
+        </header>
+        <div class="fx__tabs" role="tablist" aria-label="BOSS modules"></div>
+        <div class="fx__panel glass-spot" role="tabpanel" tabindex="0"></div>
+      </div>
+    </section>
+
+    <!-- 05 — DASHBOARD -->
+    <section id="dashboard" class="sec sec--dashboard" data-chapter="05" data-label="Dashboard">
+      <div class="ambient" aria-hidden="true"><i class="orb orb--a"></i><i class="orb orb--b"></i><i class="orb orb--c"></i></div>
+      <div class="dash-head">
+        <p class="eyebrow">05 — Data visualization</p>
+        <h2 class="display">YOUR BUSINESS, <span class="metal">IN ONE VIEW.</span></h2>
+      </div>
+
+      <div class="dash-persp">
+        <div class="dash-stage">
+          <div class="dash">
+            <div class="dash__top panel">
+              <div class="dash__brand"><img class="dash__logo" src="assets/boss-logo.png" alt="" onerror="this.onerror=null;this.src='assets/boss-logo.svg'"><b>BOSS</b><span>Command Center</span></div>
+              <div class="dash__crumbs">Overview <i>/</i> October 2026</div>
+              <div class="dash__search" aria-hidden="true">Search transactions, products, suppliers…</div>
+              <div class="dash__user" aria-hidden="true"><span>Owner</span><i>BO</i></div>
+            </div>
+
+            <nav class="dash__side panel" aria-label="Dashboard demo navigation">
+              <a class="on">Overview</a><a>Sales</a><a>Inventory</a><a>Purchasing</a><a>Production</a><a>Reports</a><a>Management</a>
+              <p class="dash__demo">Demonstration values</p>
+            </nav>
+
+            <div class="dash__main">
+              <article class="kpi panel">
+                <p class="kpi__label">Sales performance</p>
+                <p class="kpi__val num" data-count="1250000" data-prefix="₱">₱1,250,000</p>
+                <p class="kpi__delta up"><b>▲ 18.6%</b> vs last month</p>
+                <svg class="kpi__spark" id="sparkSales" viewBox="0 0 120 34" aria-hidden="true"></svg>
+              </article>
+              <article class="kpi panel">
+                <p class="kpi__label">Inventory</p>
+                <p class="kpi__val num" data-count="86" data-suffix="%">86%</p>
+                <p class="kpi__delta">Stock on hand vs target</p>
+                <div class="kpi-meter" aria-hidden="true"><i style="--w:.86"></i></div>
+              </article>
+              <article class="kpi panel">
+                <p class="kpi__label">Orders</p>
+                <p class="kpi__val num" data-count="1248">1,248</p>
+                <p class="kpi__delta up"><b>▲ 9.2%</b> vs last month</p>
+              </article>
+              <article class="kpi panel">
+                <p class="kpi__label">Active customers</p>
+                <p class="kpi__val num" data-count="428">428</p>
+                <p class="kpi__delta up"><b>▲ 32</b> new this month</p>
+              </article>
+
+              <article class="card card--sales panel">
+                <header><h3>Sales performance</h3><span>Last 12 months · ₱</span></header>
+                <div class="chart-wrap">
+                  <svg id="salesChart" viewBox="0 0 720 240" role="img" aria-label="Monthly sales rising from ₱720K in November 2025 to ₱1.25M in October 2026"></svg>
+                </div>
+              </article>
+
+              <article class="card card--inv panel">
+                <header><h3>Inventory levels</h3><span>% of target stock</span></header>
+                <ul class="inv">
+                  <li><span>Raw materials</span><b>92%</b><div class="inv-bar"><i class="inv-fill" style="--w:.92"></i></div></li>
+                  <li><span>Finished goods</span><b>86%</b><div class="inv-bar"><i class="inv-fill" style="--w:.86"></i></div></li>
+                  <li><span>Packaging</span><b>64%</b><div class="inv-bar"><i class="inv-fill" style="--w:.64"></i></div></li>
+                  <li class="low"><span>Spare parts <em><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1 11 10H1z"/></svg>Low stock</em></span><b>31%</b><div class="inv-bar"><i class="inv-fill" style="--w:.31"></i></div></li>
+                </ul>
+              </article>
+
+              <article class="card card--prod panel">
+                <header><h3>Production output</h3><span>Units · last 8 weeks</span></header>
+                <svg id="prodChart" viewBox="0 0 360 190" role="img" aria-label="Weekly production output, rising from 420 to 590 units"></svg>
+              </article>
+
+              <article class="card card--tx panel">
+                <header><h3>Recent transactions</h3><span>Today</span></header>
+                <table class="tx">
+                  <thead><tr><th>Ref</th><th>Customer</th><th>Agent</th><th class="r">Amount</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr class="tx-row"><td>SO-24817</td><td>Northpoint Trading</td><td>Agent 04</td><td class="r">₱48,200</td><td><span class="st st--good">✓ Paid</span></td></tr>
+                    <tr class="tx-row"><td>SO-24816</td><td>Casa Verde Foods</td><td>Agent 11</td><td class="r">₱126,750</td><td><span class="st">◷ Pending</span></td></tr>
+                    <tr class="tx-row"><td>SO-24815</td><td>Metro Hardware Co.</td><td>Agent 02</td><td class="r">₱32,980</td><td><span class="st st--good">✓ Paid</span></td></tr>
+                    <tr class="tx-row"><td>SO-24814</td><td>Bayside Retail</td><td>Agent 07</td><td class="r">₱74,400</td><td><span class="st">→ For delivery</span></td></tr>
+                  </tbody>
+                </table>
+              </article>
+            </div>
+            <div class="dash-tip" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 — HOW IT WORKS: a data packet travels the wire through four steps -->
+    <section id="how" class="sec sec--how" data-chapter="06" data-label="How it works">
+      <div class="how">
+        <header class="how__head">
+          <p class="eyebrow">06 — How BOSS works</p>
+          <h2 class="display">FROM ONE TRANSACTION <span class="metal">TO A CLEAR DECISION.</span></h2>
+        </header>
+        <div class="how__rail">
+          <svg class="how__wire" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+            <path class="how__wire-base" d="M0 110 C 150 110, 150 40, 300 40 S 450 180, 600 180 S 750 40, 900 40 S 1050 110, 1200 110"/>
+            <path class="how__wire-lit" pathLength="1" d="M0 110 C 150 110, 150 40, 300 40 S 450 180, 600 180 S 750 40, 900 40 S 1050 110, 1200 110"/>
+            <circle class="how__packet" r="7"/>
+          </svg>
+          <ol class="how__steps">
+            <li class="step glass-spot">
+              <span class="step__num">01</span>
+              <svg class="step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h12l4 4v12H4zM8 12h8M8 16h5M8 8h4"/></svg>
+              <h3>Record</h3>
+              <p>Every sale, delivery, purchase and production run is entered once — at the counter, in the warehouse or on the plant floor.</p>
+            </li>
+            <li class="step glass-spot">
+              <span class="step__num">02</span>
+              <svg class="step__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 11l7.4-3.9M8.3 13l7.4 3.9"/></svg>
+              <h3>Connect</h3>
+              <p>BOSS links each transaction to stock, costs, customers and suppliers automatically — no re-encoding between departments.</p>
+            </li>
+            <li class="step glass-spot">
+              <span class="step__num">03</span>
+              <svg class="step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>
+              <h3>Monitor</h3>
+              <p>Live dashboards and alerts show what is selling, what is running low, what is delayed and who is overdue.</p>
+            </li>
+            <li class="step glass-spot">
+              <span class="step__num">04</span>
+              <svg class="step__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>
+              <h3>Decide</h3>
+              <p>Reports turn the numbers into answers, so you price, buy, produce and hire on facts instead of guesses.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 — THE BUSINESS OWNER -->
+    <section id="owner" class="sec sec--owner" data-chapter="07" data-label="The owner">
+      <div class="owner__dark" aria-hidden="true"></div>
+      <div class="owner__inner">
+        <p class="owner__eyebrow">07 — The business owner</p>
+        <span class="owner__line" aria-hidden="true"></span>
+        <h2 class="owner__phrases">
+          <span class="ph"><em>SEE</em> THE BUSINESS.</span>
+          <span class="ph"><em>UNDERSTAND</em> THE BUSINESS.</span>
+          <span class="ph"><em>CONTROL</em> THE BUSINESS.</span>
+        </h2>
+      </div>
+    </section>
+
+    <!-- 06 — ECOSYSTEM -->
+    <section id="ecosystem" class="sec sec--eco" data-chapter="08" data-label="Ecosystem">
+      <div class="eco__head">
+        <p class="eyebrow">08 — The BOSS ecosystem</p>
+        <h2 class="display">EVERYTHING <span class="metal">CONNECTS</span> TO BOSS.</h2>
+        <p>Every module feeds the same core. Sales, stock, suppliers and the production floor flow into one place — the place you make decisions from.</p>
+      </div>
+      <div class="eco__stage">
+        <svg id="ecoSvg" viewBox="0 0 1000 700" role="img" aria-label="BOSS at the center, connected to Sales, Reports, Management, Production, Purchasing and Inventory"></svg>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section id="final" class="sec sec--final" data-chapter="09" data-label="BOSS">
+      <div class="final__inner">
+        <div class="final__logo">
+          <div class="logo3d" id="finalLogo" role="img" aria-label="BOSS — Business Owner Strategic System logo">
+            <div class="logo3d__glow"><i></i></div>
+            <img class="logo3d__layer l-rings" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-arcs-top" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-arcs-bottom" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+            <img class="logo3d__layer l-core" src="assets/boss-logo.png" alt="" draggable="false" onerror="this.onerror=null;this.src='assets/boss-logo.svg'">
+          </div>
+        </div>
+        <h2 class="sr-only">BOSS — Business Owner Strategic System</h2>
+        <p class="final__tag" data-split="words">Built to give business owners a clearer view of their business.</p>
+        <a class="final__cta" href="#demo" data-magnetic><span>Explore BOSS</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </section>
+
+    <!-- 10 — BOOK A DEMO (posts to api/demo-request.php) -->
+    <section id="demo" class="sec sec--flow sec--demo" data-chapter="10" data-label="Book a demo">
+      <div class="ambient" aria-hidden="true"><i class="orb orb--a"></i><i class="orb orb--c"></i></div>
+      <div class="demo">
+        <div class="demo__copy">
+          <p class="eyebrow">10 — Book a demo</p>
+          <h2 class="display">SEE BOSS RUN <span class="metal">YOUR BUSINESS.</span></h2>
+          <p class="demo__lead">Tell us a little about your business. We'll walk you through BOSS using the processes you actually run — your products, your branches, your reports.</p>
+          <ul class="why">
+            <li><b>One source of truth.</b> Sales, stock, purchasing and production share the same records, so every report agrees.</li>
+            <li><b>Built for owners.</b> See the whole business on one screen without waiting for month-end spreadsheets.</li>
+            <li><b>Control without micromanaging.</b> Approvals, user roles and an audit trail keep every transaction accountable.</li>
+            <li><b>Grows with you.</b> Add branches, warehouses, users and modules as the business expands.</li>
+          </ul>
+        </div>
+
+        <!-- data-formspree: your Formspree form ID (formspree.io → New form → the part after /f/).
+             When set, requests are emailed via Formspree (works on Vercel); when empty, they post to the PHP script (XAMPP). -->
+        <form class="demo__form glass-spot" id="demoForm" action="api/demo-request.php" method="post" novalidate data-formspree="">
+          <h3>Request a demo</h3>
+          <div class="f-row">
+            <label class="f"><span>Full name</span><input name="name" autocomplete="name" required maxlength="80"></label>
+            <label class="f"><span>Business name</span><input name="company" autocomplete="organization" required maxlength="120"></label>
+          </div>
+          <div class="f-row">
+            <label class="f"><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+            <label class="f"><span>Mobile number</span><input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="09XX XXX XXXX"></label>
+          </div>
+          <label class="f"><span>Type of business</span>
+            <select name="industry" required>
+              <option value="">Select one</option>
+              <option>Trading / Distribution</option>
+              <option>Manufacturing</option>
+              <option>Retail</option>
+              <option>Food &amp; Beverage</option>
+              <option>Services</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <fieldset class="f f--chips">
+            <legend>Modules you're interested in</legend>
+            <label><input type="checkbox" name="modules[]" value="Sales"><span>Sales</span></label>
+            <label><input type="checkbox" name="modules[]" value="Inventory"><span>Inventory</span></label>
+            <label><input type="checkbox" name="modules[]" value="Purchasing"><span>Purchasing</span></label>
+            <label><input type="checkbox" name="modules[]" value="Production"><span>Production</span></label>
+            <label><input type="checkbox" name="modules[]" value="Reports"><span>Reports</span></label>
+            <label><input type="checkbox" name="modules[]" value="Management"><span>Management</span></label>
+          </fieldset>
+          <label class="f"><span>Anything we should know? <em>(optional)</em></span><textarea name="message" rows="3" maxlength="1000"></textarea></label>
+          <input class="hp" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="_subject" value="New BOSS demo request">
+          <button class="demo__submit" type="submit" data-magnetic><span>Request my demo</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+          <p class="demo__status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <footer class="foot">
+        <a class="foot__brand" href="#hero"><img src="assets/boss-logo.png" alt="" onerror="this.onerror=null;this.src='assets/boss-logo.svg'"><span>BOSS</span></a>
+        <nav class="foot__links" aria-label="Footer">
+          <a href="#modules">Modules</a><a href="#functions">Functions</a><a href="#how">How it works</a><a href="#demo">Book a demo</a>
+        </nav>
+        <p>© 2026 BOSS — Business Owner Strategic System</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/intro.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
