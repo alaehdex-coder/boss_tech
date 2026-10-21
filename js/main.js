@@ -1269,6 +1269,9 @@
       .to($('.orbit__rings', el), { rotation: 45, duration: .5 }, .42);
 
     var links = $$('.orbit__links line', el);
+    // centre each chip on its line end with GSAP's percent offset, not the CSS `translate` shift —
+    // GSAP folded that shift into x, and tweening x back to 0 then un-centred some chips
+    gsap.set($$('.chip', el), { translate: 'none', xPercent: -50, yPercent: -50 });
     $$('.chip', el).forEach(function (chip, i) {
       var at = .3 + i * .065;
       var cx = parseFloat(chip.style.getPropertyValue('--x')), cy = parseFloat(chip.style.getPropertyValue('--y'));
